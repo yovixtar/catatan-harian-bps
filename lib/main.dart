@@ -3,6 +3,10 @@ import 'package:catatan_harian_bps/src/views/login_page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'src/views/home_page/home_page.dart';
+import 'src/views/tes/tes.dart';
+import 'src/views/tes/tes1.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -44,6 +48,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),
+          '/home': (context) => HomePage(),
+          '/admin': (context) => Tes(),
+          '/user': (context) => Tes1(),
         },
       ),
     );
