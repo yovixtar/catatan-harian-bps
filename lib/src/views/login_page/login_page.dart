@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:catatan_harian_bps/src/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/session.dart';
+import '../utils/snackbar_utils.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,6 +26,15 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  // void showSnackbarError(BuildContext context, String errorMessage) {
+  //   final snackBar = SnackBar(
+  //     content: Text(errorMessage),
+  //     backgroundColor: Colors.red,
+  //   );
+
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
+
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
@@ -33,7 +48,29 @@ class _LoginPageState extends State<LoginPage> {
         nip: _nipController.text,
         password: _passwordController.text,
       )) {
-      } else {}
+        var tes = await SessionManager.getData();
+        // print("tes123 : ${tes}");
+        if (await SessionManager.hasToken()) {
+          Map<String, dynamic> getData = await JwtDecoder.decode(tes?['token']);
+          // print("objecttt: ${getData}");
+          if (getData['role'] == 'admin') {
+            Navigator.pushReplacementNamed(context, '/admin');
+          } else {
+            Navigator.pushReplacementNamed(context, '/user');
+          }
+        }
+        // } else {
+        //   setState(() {
+        //     _loginMessage = 'Login berhasil, tetapi token tidak disimpan.';
+        //   });
+        // }
+      } else {
+        setState(() {
+          _loginMessage = 'NIP atau password anda masukan salah.';
+          // showSnackbarError(context, _loginMessage);
+          SnackbarUtils.showErrorSnackbar(context, _loginMessage);
+        });
+      }
 
       setState(() {
         isLoading = false;
@@ -56,8 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     ?.copyWith(fontSize: 24),
               ),
               SizedBox(height: 20),
-              Image.asset('assets/images/logo.png',
-                  height: 100), // Logo Aplikasi
+              Image.asset('assets/images/logo.png', height: 100),
               SizedBox(height: 30),
               _buildTextField(_nipController, 'NIP', Icons.person),
               SizedBox(height: 10),

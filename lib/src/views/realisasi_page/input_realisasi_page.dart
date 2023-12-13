@@ -19,7 +19,8 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('dd MMMM yyyy', 'id_ID')
-        .format(DateTime.parse(widget.kegiatan.tanggal));
+        // .format(DateTime.parse(widget.kegiatan.tanggal));
+        .format(DateTime.parse("widget.kegiatan.tanggal"));
 
     return Scaffold(
       appBar: AppBar(
@@ -80,9 +81,10 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: kegiatan.terealisasi
-                ? [Colors.green.shade300, Colors.green.shade100]
-                : [Colors.blue.shade300, Colors.blue.shade100],
+            colors: [Colors.green.shade300, Colors.green.shade100],
+            // colors: kegiatan.terealisasi
+            //     ? [Colors.green.shade300, Colors.green.shade100]
+            //     : [Colors.blue.shade300, Colors.blue.shade100],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -98,7 +100,8 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                 children: [
                   Expanded(
                     child: Text(
-                      kegiatan.nama,
+                      // kegiatan.nama,
+                      "kegiatan.nama",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -116,9 +119,10 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Expanded(
-                      child: Text(": " + kegiatan.target),
+                      // child: Text(": " + kegiatan.target),
+                      child: Text(": " + "kegiatan.target"),
                     ),
-                    if (kegiatan.terealisasi) ...[
+                    if (kegiatan.terealisasi!) ...[
                       Expanded(
                         child: Text('Realisasi',
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -134,7 +138,7 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                 ),
               ),
               SizedBox(height: 5),
-              if (kegiatan.terealisasi)
+              if (kegiatan.terealisasi!)
                 Text('Keterangan: ${kegiatan.keterangan}',
                     style: TextStyle(color: Colors.black)),
             ],

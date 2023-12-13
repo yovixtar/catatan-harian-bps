@@ -35,8 +35,10 @@ class _PenggunaCardState extends State<PenggunaCard> {
           return Card(
             margin: EdgeInsets.all(8.0),
             child: ListTile(
-              title: Text(widget.daftarPengguna[index].nama),
-              subtitle: Text(widget.daftarPengguna[index].nip),
+              // title: Text(widget.daftarPengguna[index].nama),
+              title: Text("widget.daftarPengguna[index].nama"),
+              // subtitle: Text(widget.daftarPengguna[index].nip),
+              subtitle: Text("widget.daftarPengguna[index].nip"),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -49,7 +51,7 @@ class _PenggunaCardState extends State<PenggunaCard> {
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      _showDeleteDialog(widget.daftarPengguna[index].nip);
+                      _showDeleteDialog(widget.daftarPengguna[index].nip!);
                     },
                   ),
                 ],

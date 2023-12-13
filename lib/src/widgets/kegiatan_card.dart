@@ -12,7 +12,8 @@ class KegiatanCard extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(kegiatan.nama),
+          // title: Text(kegiatan.nama),
+          title: Text("kegiatan.nama"),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,13 +21,16 @@ class KegiatanCard extends StatelessWidget {
                 _buildDetailItem(
                     'Tanggal',
                     DateFormat('dd MMMM yyyy', 'id_ID')
-                        .format(DateTime.parse(kegiatan.tanggal))),
-                _buildDetailItem('Target', kegiatan.target),
-                if (kegiatan.terealisasi)
+                        // .format(DateTime.parse(kegiatan.tanggal))),
+                        .format(DateTime.parse("kegiatan.tanggal"))),
+                // _buildDetailItem('Target', kegiatan.target),
+                _buildDetailItem('Target', "kegiatan.target"),
+                if (kegiatan.terealisasi!)
                   _buildDetailItem('Realisasi', kegiatan.realisasi ?? '-'),
-                if (kegiatan.terealisasi)
+                if (kegiatan.terealisasi!)
                   _buildDetailItem('Keterangan', kegiatan.keterangan ?? '-'),
-                _buildDetailItem('NIP Pencatat', kegiatan.nip_pencatat),
+                // _buildDetailItem('NIP Pencatat', kegiatan.nip_pencatat),
+                _buildDetailItem('NIP Pencatat', "kegiatan.nip_pencatat"),
               ],
             ),
           ),
@@ -60,7 +64,8 @@ class KegiatanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('dd MMMM yyyy', 'id_ID')
-        .format(DateTime.parse(kegiatan.tanggal));
+        // .format(DateTime.parse(kegiatan.tanggal));
+        .format(DateTime.parse("kegiatan.tanggal"));
 
     return InkWell(
       onTap: () => _showDetailsDialog(context),
@@ -71,9 +76,10 @@ class KegiatanCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: kegiatan.terealisasi
-                  ? [Colors.green.shade300, Colors.green.shade100]
-                  : [Colors.blue.shade300, Colors.blue.shade100],
+              colors: [Colors.green.shade300, Colors.green.shade100],
+              // colors: kegiatan.terealisasi
+              //     ? [Colors.green.shade300, Colors.green.shade100]
+              //     : [Colors.blue.shade300, Colors.blue.shade100],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -89,7 +95,8 @@ class KegiatanCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        kegiatan.nama,
+                        // kegiatan.nama,
+                        "kegiatan.nama",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                         maxLines: 1,
@@ -102,7 +109,7 @@ class KegiatanCard extends StatelessWidget {
                       },
                       itemBuilder: (BuildContext context) {
                         return <PopupMenuEntry<String>>[
-                          if (!kegiatan.terealisasi)
+                          if (!kegiatan.terealisasi!)
                             PopupMenuItem<String>(
                               value: 'realisasi',
                               child: Row(
@@ -140,9 +147,10 @@ class KegiatanCard extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       Expanded(
-                        child: Text(": " + kegiatan.target),
+                        // child: Text(": " + kegiatan.target),
+                        child: Text(": " + "kegiatan.target"),
                       ),
-                      if (kegiatan.terealisasi) ...[
+                      if (kegiatan.terealisasi!) ...[
                         Expanded(
                           child: Text('Realisasi',
                               style: TextStyle(fontWeight: FontWeight.bold)),
@@ -158,7 +166,7 @@ class KegiatanCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
-                if (kegiatan.terealisasi)
+                if (kegiatan.terealisasi!)
                   Text('Keterangan: ${kegiatan.keterangan}',
                       style: TextStyle(color: Colors.black)),
               ],
