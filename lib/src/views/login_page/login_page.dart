@@ -26,15 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  // void showSnackbarError(BuildContext context, String errorMessage) {
-  //   final snackBar = SnackBar(
-  //     content: Text(errorMessage),
-  //     backgroundColor: Colors.red,
-  //   );
-
-  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  // }
-
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
@@ -59,15 +50,9 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushReplacementNamed(context, '/user');
           }
         }
-        // } else {
-        //   setState(() {
-        //     _loginMessage = 'Login berhasil, tetapi token tidak disimpan.';
-        //   });
-        // }
       } else {
         setState(() {
           _loginMessage = 'NIP atau password anda masukan salah.';
-          // showSnackbarError(context, _loginMessage);
           SnackbarUtils.showErrorSnackbar(context, _loginMessage);
         });
       }

@@ -1,3 +1,5 @@
+import 'package:flutter/src/widgets/container.dart';
+
 class Pengguna {
   String? nama;
   String? nip;
@@ -26,4 +28,6 @@ class Pengguna {
       'token': token,
     };
   }
+
+  map(Container Function(dynamic tes) param0) {}
 }

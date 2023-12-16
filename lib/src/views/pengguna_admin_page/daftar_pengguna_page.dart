@@ -1,4 +1,6 @@
+import 'package:catatan_harian_bps/src/views/pengguna_admin_page/tambah_pengguna_page.dart';
 import 'package:flutter/material.dart';
+import 'package:catatan_harian_bps/src/services/auth_services.dart';
 import 'package:catatan_harian_bps/src/models/pengguna.dart';
 import 'package:catatan_harian_bps/src/widgets/pengguna_card.dart';
 
@@ -8,22 +10,40 @@ class DaftarPengguna extends StatefulWidget {
 }
 
 class _DaftarPenggunaState extends State<DaftarPengguna> {
-  List<Pengguna> daftar_pengguna = [
-    Pengguna(nama: 'John Doe', nip: '12345', password: "123"),
-    Pengguna(nama: 'Jane Smith', nip: '67890', password: "123"),
-    // Data pengguna tambahan dapat ditambahkan di sini
-  ];
+  List<Pengguna>? daftarPengguna;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Daftar Pengguna')),
-      body: PenggunaCard(
-        daftarPengguna: daftar_pengguna,
+      body: FutureBuilder<List<Pengguna>?>(
+        future: AuthService().getDataUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else if (snapshot.hasData) {
+            daftarPengguna = snapshot.data;
+            return PenggunaCard(
+              daftarPengguna: daftarPengguna ?? [],
+            );
+          } else {
+            return const Center(child: Text("Tidak Ada Data"));
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Aksi saat tombol tambah ditekan
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TambahPengguna()),
+          );
         },
         child: Icon(Icons.add),
       ),

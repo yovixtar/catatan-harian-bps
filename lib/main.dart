@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'src/views/home_page/home_page.dart';
+import 'src/views/pengguna_admin_page/daftar_pengguna_page.dart';
 import 'src/views/tes/tes.dart';
 import 'src/views/tes/tes1.dart';
 
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget {
           '/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),
           '/home': (context) => HomePage(),
-          '/admin': (context) => Tes(),
+          '/admin': (context) => DaftarPengguna(),
+          '/tes': (context) => Tes(),
           '/user': (context) => Tes1(),
         },
       ),

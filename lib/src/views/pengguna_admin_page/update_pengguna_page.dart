@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import '../../services/auth_services.dart';
+import '../../services/session.dart';
+import 'daftar_pengguna_page.dart';
 
 class UpdatePengguna extends StatefulWidget {
   final String nama;
@@ -14,6 +20,7 @@ class _UpdatePenggunaState extends State<UpdatePengguna> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _rePasswordController = TextEditingController();
+  String? _tempPass;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +119,41 @@ class _UpdatePenggunaState extends State<UpdatePengguna> {
                           padding: EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text('Simpan', style: TextStyle(fontSize: 16)),
-                        onPressed: () {
+                        onPressed: () async {
+                          String? token = await SessionManager.getToken();
+                          Map<String, dynamic> tokenData =
+                              jsonDecode(token.toString());
+                          var bearerToken = tokenData['token'];
+                          _tempPass = _passwordController.text;
+                          String? _tempNip = widget.nip;
                           if (_formKey.currentState!.validate()) {
-                            // Proses simpan data
+                            try {
+                              await AuthService().changePass(
+                                  _tempNip!, _tempPass!, bearerToken!);
+                              // Tampilkan pesan keberhasilan kepada pengguna
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Kata sandi berhasil diubah'),
+                                  duration: Duration(seconds: 4),
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DaftarPengguna()),
+                              );
+                            } catch (e) {
+                              // Tampilkan pesan kesalahan kepada pengguna
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Gagal mengubah kata sandi. Silakan coba lagi.'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                              print("Error: $e");
+                            }
                           }
                         },
                       ),

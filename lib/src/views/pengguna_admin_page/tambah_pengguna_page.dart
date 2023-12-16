@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:catatan_harian_bps/src/services/auth_services.dart';
 import 'package:flutter/material.dart';
+
+import '../../services/session.dart';
+import 'daftar_pengguna_page.dart';
 
 class TambahPengguna extends StatefulWidget {
   @override
@@ -11,6 +17,9 @@ class _TambahPenggunaState extends State<TambahPengguna> {
   TextEditingController _nipController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _rePasswordController = TextEditingController();
+  String? _tempName;
+  String? _tempNip;
+  String? _tempPass;
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +104,28 @@ class _TambahPenggunaState extends State<TambahPengguna> {
                     padding: EdgeInsets.symmetric(vertical: 12),
                   ),
                   child: Text('Simpan', style: TextStyle(fontSize: 16)),
-                  onPressed: () {
+                  onPressed: () async {
+                    String? token = await SessionManager.getToken();
+                    Map<String, dynamic> tokenData =
+                        jsonDecode(token.toString());
+                    var bearerToken = tokenData['token'];
+                    _tempName = _namaController.text;
+                    _tempNip = _nipController.text;
+                    _tempPass = _passwordController.text;
+
                     if (_formKey.currentState!.validate()) {
-                      // Proses simpan data
+                      try {
+                        await AuthService().addUser(
+                            _tempName!, _tempNip!, _tempPass!, bearerToken!);
+                        Navigator.of(context).pop();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DaftarPengguna()),
+                        );
+                      } catch (e) {
+                        print("Error: $e");
+                      }
                     }
                   },
                 ),

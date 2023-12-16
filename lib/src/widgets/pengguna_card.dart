@@ -1,5 +1,12 @@
+import 'dart:convert';
+
+import 'package:catatan_harian_bps/src/views/pengguna_admin_page/daftar_pengguna_page.dart';
 import 'package:flutter/material.dart';
 import 'package:catatan_harian_bps/src/models/pengguna.dart';
+
+import '../services/auth_services.dart';
+import '../services/session.dart';
+import '../views/pengguna_admin_page/update_pengguna_page.dart';
 
 class PenggunaCard extends StatefulWidget {
   final List<Pengguna> daftarPengguna;
@@ -35,17 +42,24 @@ class _PenggunaCardState extends State<PenggunaCard> {
           return Card(
             margin: EdgeInsets.all(8.0),
             child: ListTile(
-              // title: Text(widget.daftarPengguna[index].nama),
-              title: Text("widget.daftarPengguna[index].nama"),
-              // subtitle: Text(widget.daftarPengguna[index].nip),
-              subtitle: Text("widget.daftarPengguna[index].nip"),
+              title: Text(widget.daftarPengguna[index].nama.toString()),
+              // title: Text("widget.daftarPengguna[index].nama"),
+              subtitle: Text(widget.daftarPengguna[index].nip.toString()),
+              // subtitle: Text("widget.daftarPengguna[index].nip"),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      // Aksi saat tombol edit ditekan
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UpdatePengguna(
+                                  nama: widget.daftarPengguna[index].nama!,
+                                  nip: widget.daftarPengguna[index].nip!,
+                                )),
+                      );
                     },
                   ),
                   IconButton(
@@ -74,8 +88,24 @@ class HapusDialog extends StatefulWidget {
 }
 
 class _HapusDialogState extends State<HapusDialog> {
-  void _onDelete(BuildContext context) {
-    Navigator.of(context).pop();
+  void _onDelete(BuildContext context) async {
+    String? token = await SessionManager.getToken();
+    Map<String, dynamic> tokenData = jsonDecode(token.toString());
+    var bearerToken = tokenData['token'];
+    print(widget.nip);
+    String? tempNip = widget.nip;
+
+    try {
+      await AuthService().deleteUser(tempNip, bearerToken);
+
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DaftarPengguna()),
+      );
+    } catch (e) {
+      print('Error deleting user: $e');
+    }
   }
 
   @override
