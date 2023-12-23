@@ -1,10 +1,8 @@
 import 'dart:convert';
-
-import 'package:catatan_harian_bps/src/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
-
+import '../../providers/auth_providers.dart';
 import '../../services/session.dart';
 import '../utils/snackbar_utils.dart';
 
@@ -17,8 +15,30 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nipController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String _loginMessage = '';
-
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // checkTokenAndNavigate();
+  }
+
+  Future<void> checkTokenAndNavigate() async {
+    if (await SessionManager.hasToken()) {
+      Map<String, dynamic>? getData = await SessionManager.getData();
+      if (getData != null) {
+        Map<String, dynamic> tokenData = JwtDecoder.decode(getData['token']);
+        if (tokenData['role'] == 'admin') {
+          Navigator.pushReplacementNamed(context, '/admin');
+        } else {
+          Navigator.pushReplacementNamed(context, '/user');
+        }
+      } else {
+        // Handle the case when data is not available
+        print("Error: Data is not available");
+      }
+    }
+  }
 
   void _login() {
     setState(() {
@@ -40,15 +60,21 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       )) {
         var tes = await SessionManager.getData();
-        // print("tes123 : ${tes}");
         if (await SessionManager.hasToken()) {
-          Map<String, dynamic> getData = await JwtDecoder.decode(tes?['token']);
-          // print("objecttt: ${getData}");
-          if (getData['role'] == 'admin') {
-            Navigator.pushReplacementNamed(context, '/admin');
+          Map<String, dynamic>? getData = await SessionManager.getData();
+          if (getData != null) {
+            Map<String, dynamic> tokenData =
+                JwtDecoder.decode(getData['token']);
+            if (tokenData['role'] == 'admin') {
+              Navigator.pushReplacementNamed(context, '/admin');
+            } else {
+              Navigator.pushReplacementNamed(context, '/user');
+            }
           } else {
-            Navigator.pushReplacementNamed(context, '/user');
+            print("Error: Data tidak ada");
           }
+        } else {
+          print("Error: Token tidak ada");
         }
       } else {
         setState(() {

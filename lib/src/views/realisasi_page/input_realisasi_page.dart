@@ -1,11 +1,16 @@
+import 'package:catatan_harian_bps/src/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:catatan_harian_bps/src/models/kegiatan.dart';
 
-class InputRealisasiKegiatan extends StatefulWidget {
-  final Kegiatan kegiatan; // Asumsikan Kegiatan merupakan model data Anda
+import '../home_page/home_page.dart';
 
-  InputRealisasiKegiatan({required this.kegiatan});
+class InputRealisasiKegiatan extends StatefulWidget {
+  final Kegiatan kegiatan;
+  final String token;
+
+  InputRealisasiKegiatan(
+      {super.key, required this.kegiatan, required this.token});
 
   @override
   _InputRealisasiKegiatanState createState() => _InputRealisasiKegiatanState();
@@ -15,12 +20,16 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _realisasiController = TextEditingController();
   TextEditingController _keteranganController = TextEditingController();
+  String? _tempRealisasi;
+  String? _tempKeterangan;
+  String? _tempToken;
+  int? _tempId;
 
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('dd MMMM yyyy', 'id_ID')
-        // .format(DateTime.parse(widget.kegiatan.tanggal));
-        .format(DateTime.parse("widget.kegiatan.tanggal"));
+        .format(DateTime.parse(widget.kegiatan.tanggal!));
+    // .format(DateTime.parse("widget.kegiatan.tanggal"));
 
     return Scaffold(
       appBar: AppBar(
@@ -61,9 +70,27 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                   padding: EdgeInsets.symmetric(vertical: 12),
                 ),
                 child: Text('Simpan'),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Proses simpan data
+                    _tempRealisasi = _realisasiController.text;
+                    _tempKeterangan = _keteranganController.text;
+                    _tempId = widget.kegiatan.id;
+                    _tempToken = widget.token;
+
+                    print("realisasi: $_tempRealisasi");
+                    print("ket: $_tempKeterangan");
+                    print("id: ${widget.kegiatan.id}");
+                    final var_addKegiatan = await AuthService().addRealisasi(
+                        _tempId!,
+                        _tempRealisasi!,
+                        _tempKeterangan!,
+                        _tempToken!);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
                   }
                 },
               ),
@@ -81,10 +108,10 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.green.shade300, Colors.green.shade100],
-            // colors: kegiatan.terealisasi
-            //     ? [Colors.green.shade300, Colors.green.shade100]
-            //     : [Colors.blue.shade300, Colors.blue.shade100],
+            // colors: [Colors.green.shade300, Colors.green.shade100],
+            colors: kegiatan.terealisasi!
+                ? [Colors.green.shade300, Colors.green.shade100]
+                : [Colors.blue.shade300, Colors.blue.shade100],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -100,8 +127,8 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                 children: [
                   Expanded(
                     child: Text(
-                      // kegiatan.nama,
-                      "kegiatan.nama",
+                      kegiatan.nama!,
+                      // "kegiatan.nama",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -119,21 +146,20 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Expanded(
-                      // child: Text(": " + kegiatan.target),
-                      child: Text(": " + "kegiatan.target"),
+                      child: Text(": " + kegiatan.target!),
+                      // child: Text(": " + "kegiatan.target"),
                     ),
-                    if (kegiatan.terealisasi!) ...[
-                      Expanded(
-                        child: Text('Realisasi',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                    Expanded(
+                      child: Text(
+                        'Realisasi',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Expanded(
-                        child: Text(': ${kegiatan.realisasi}' ?? '-'),
+                    ),
+                    Expanded(
+                      child: Text(
+                        ': ${widget.kegiatan.realisasi == null || widget.kegiatan.realisasi == "" ? 'belum ada' : widget.kegiatan.realisasi}',
                       ),
-                    ] else ...[
-                      Expanded(child: SizedBox()),
-                      Expanded(child: SizedBox()),
-                    ],
+                    ),
                   ],
                 ),
               ),

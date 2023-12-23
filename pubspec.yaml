@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl:
+  intl: ^0.17.0
   provider: ^6.0.5
   http: ^0.13.5
   jwt_decoder: ^2.0.1

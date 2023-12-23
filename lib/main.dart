@@ -1,6 +1,8 @@
 import 'package:catatan_harian_bps/src/providers/auth_providers.dart';
 import 'package:catatan_harian_bps/src/views/login_page/login_page.dart';
+import 'package:catatan_harian_bps/src/views/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'src/views/home_page/home_page.dart';
@@ -8,7 +10,11 @@ import 'src/views/pengguna_admin_page/daftar_pengguna_page.dart';
 import 'src/views/tes/tes.dart';
 import 'src/views/tes/tes1.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -45,14 +51,15 @@ class MyApp extends StatelessWidget {
             textTheme: ButtonTextTheme.primary,
           ),
         ),
-        initialRoute: '/login',
+        initialRoute: '/intro',
         routes: {
           '/': (context) => LoginPage(),
+          '/intro': (context) => SplashScreen(),
           '/login': (context) => LoginPage(),
           '/home': (context) => HomePage(),
           '/admin': (context) => DaftarPengguna(),
           '/tes': (context) => Tes(),
-          '/user': (context) => Tes1(),
+          '/user': (context) => HomePage(),
         },
       ),
     );

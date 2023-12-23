@@ -33,4 +33,9 @@ class SessionManager {
     }
     return json.decode(responseDataString);
   }
+
+  static Future<bool> clearToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.remove(responseDataKey);
+  }
 }

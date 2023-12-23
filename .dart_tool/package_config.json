@@ -87,9 +87,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///C:/Users/HERO/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+      "rootUri": "file:///C:/Users/HERO/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.17.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "jwt_decoder",
@@ -290,7 +290,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-13T03:45:47.095020Z",
+  "generated": "2023-12-20T14:21:52.347213Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }

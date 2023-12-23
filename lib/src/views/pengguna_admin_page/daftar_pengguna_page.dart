@@ -1,3 +1,4 @@
+import 'package:catatan_harian_bps/src/services/session.dart';
 import 'package:catatan_harian_bps/src/views/pengguna_admin_page/tambah_pengguna_page.dart';
 import 'package:flutter/material.dart';
 import 'package:catatan_harian_bps/src/services/auth_services.dart';
@@ -17,15 +18,30 @@ class _DaftarPenggunaState extends State<DaftarPengguna> {
     super.initState();
   }
 
+  void _handleLogout() async {
+    await SessionManager.clearToken();
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Daftar Pengguna')),
+      appBar: AppBar(
+        title: Text('Daftar Pengguna'),
+        automaticallyImplyLeading: false,
+        actions: [
+          // Add a logout button to the AppBar
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _handleLogout,
+          ),
+        ],
+      ),
       body: FutureBuilder<List<Pengguna>?>(
         future: AuthService().getDataUser(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else if (snapshot.hasData) {
