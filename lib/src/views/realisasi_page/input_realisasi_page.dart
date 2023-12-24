@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:catatan_harian_bps/src/models/kegiatan.dart';
 
 import '../home_page/home_page.dart';
+import '../utils/snackbar_utils.dart';
 
 class InputRealisasiKegiatan extends StatefulWidget {
   final Kegiatan kegiatan;
@@ -71,26 +72,28 @@ class _InputRealisasiKegiatanState extends State<InputRealisasiKegiatan> {
                 ),
                 child: Text('Simpan'),
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    // Proses simpan data
-                    _tempRealisasi = _realisasiController.text;
-                    _tempKeterangan = _keteranganController.text;
-                    _tempId = widget.kegiatan.id;
-                    _tempToken = widget.token;
-
-                    print("realisasi: $_tempRealisasi");
-                    print("ket: $_tempKeterangan");
-                    print("id: ${widget.kegiatan.id}");
-                    final var_addKegiatan = await AuthService().addRealisasi(
+                  try {
+                    if (_formKey.currentState!.validate()) {
+                      _tempRealisasi = _realisasiController.text;
+                      _tempKeterangan = _keteranganController.text;
+                      _tempId = widget.kegiatan.id;
+                      _tempToken = widget.token;
+                      final var_addKegiatan = await AuthService().addRealisasi(
                         _tempId!,
                         _tempRealisasi!,
                         _tempKeterangan!,
-                        _tempToken!);
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    );
+                        _tempToken!,
+                      );
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    print('Error: $e');
+                    SnackbarUtils.showErrorSnackbar(
+                        context, "Gagal menambahkan realisasi");
                   }
                 },
               ),

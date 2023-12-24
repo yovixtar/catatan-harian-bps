@@ -72,9 +72,11 @@ class _LoginPageState extends State<LoginPage> {
             }
           } else {
             print("Error: Data tidak ada");
+            SnackbarUtils.showErrorSnackbar(context, "Data tidak ada");
           }
         } else {
           print("Error: Token tidak ada");
+          SnackbarUtils.showErrorSnackbar(context, "Token tidak ada");
         }
       } else {
         setState(() {
@@ -120,10 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: handleLogin,
               ),
               SizedBox(height: 10),
-              Text(
-                _loginMessage,
-                style: TextStyle(color: Colors.red),
-              ),
             ],
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:catatan_harian_bps/src/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/session.dart';
+import '../utils/snackbar_utils.dart';
 import 'daftar_pengguna_page.dart';
 
 class TambahPengguna extends StatefulWidget {
@@ -125,6 +126,8 @@ class _TambahPenggunaState extends State<TambahPengguna> {
                         );
                       } catch (e) {
                         print("Error: $e");
+                        SnackbarUtils.showErrorSnackbar(
+                            context, "Gagal menambahkan user pengguna");
                       }
                     }
                   },

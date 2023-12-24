@@ -1,0 +1,13 @@
+com.bps.catatan_harian_bps.app-jetified-window-1.0.0-beta04-0 C:\Users\HERO\.gradle\caches\transforms-3\4a519d8241f18425848ee2eb361f7e88\transformed\jetified-window-1.0.0-beta04\res
+com.bps.catatan_harian_bps.app-jetified-annotation-experimental-1.1.0-1 C:\Users\HERO\.gradle\caches\transforms-3\58eee7595de58f7e443e1f4592934861\transformed\jetified-annotation-experimental-1.1.0\res
+com.bps.catatan_harian_bps.app-jetified-window-java-1.0.0-beta04-2 C:\Users\HERO\.gradle\caches\transforms-3\5d1d5115b2c1deea26c991b2200490a5\transformed\jetified-window-java-1.0.0-beta04\res
+com.bps.catatan_harian_bps.app-core-1.6.0-3 C:\Users\HERO\.gradle\caches\transforms-3\c0c55a33fdc5046d771f9988de5ec071\transformed\core-1.6.0\res
+com.bps.catatan_harian_bps.app-main-4 C:\repository\projek-flutter\Freelance\catatan-harian-bps\android\app\src\main\res
+com.bps.catatan_harian_bps.app-release-5 C:\repository\projek-flutter\Freelance\catatan-harian-bps\android\app\src\release\res
+com.bps.catatan_harian_bps.app-pngs-6 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\generated\res\pngs\release
+com.bps.catatan_harian_bps.app-resValues-7 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\generated\res\resValues\release
+com.bps.catatan_harian_bps.app-rs-8 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\generated\res\rs\release
+com.bps.catatan_harian_bps.app-mergeReleaseResources-9 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.bps.catatan_harian_bps.app-mergeReleaseResources-10 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.bps.catatan_harian_bps.app-merged_res-11 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\app\intermediates\merged_res\release
+com.bps.catatan_harian_bps.app-packaged_res-12 C:\repository\projek-flutter\Freelance\catatan-harian-bps\build\shared_preferences_android\intermediates\packaged_res\release

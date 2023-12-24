@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../services/session.dart';
+import '../utils/snackbar_utils.dart';
 
 class InputTargetKegiatan extends StatefulWidget {
   @override
@@ -97,32 +98,33 @@ class _InputTargetKegiatanState extends State<InputTargetKegiatan> {
                   ),
                   child: Text('Simpan', style: TextStyle(fontSize: 16)),
                   onPressed: () async {
-                    print("object: ${_tanggalController.text}");
-                    if (_formKey.currentState!.validate()) {
-                      String? token = await SessionManager.getToken();
-                      Map<String, dynamic> tokenData =
-                          jsonDecode(token.toString());
-                      var bearerToken = tokenData['token'];
-                      _tempNamaKegiatan = _namaKegiatanController.text;
-                      // _tempTanggal = DateFormat('yyyy-MM-dd').format(picked);
-                      _tempTanggal =
-                          DateFormat('yyyy-MM-dd').format(_tanggalTerpilih);
-                      _tempTarget = _targetController.text;
-                      print("token: $bearerToken");
-                      print("nama kegiatan: $_tempNamaKegiatan");
-                      print("tanggal kegiatan: $_tempTanggal");
-                      print("Target kegiatan: $_tempTarget");
-                      final result = await AuthService().addKegiatan(
+                    try {
+                      if (_formKey.currentState!.validate()) {
+                        String? token = await SessionManager.getToken();
+                        Map<String, dynamic> tokenData =
+                            jsonDecode(token.toString());
+                        var bearerToken = tokenData['token'];
+                        _tempNamaKegiatan = _namaKegiatanController.text;
+                        _tempTanggal =
+                            DateFormat('yyyy-MM-dd').format(_tanggalTerpilih);
+                        _tempTarget = _targetController.text;
+                        final result = await AuthService().addKegiatan(
                           _tempNamaKegiatan!,
                           _tempTanggal!,
                           _tempTarget!,
-                          bearerToken!);
-                      Navigator.of(context).pop();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                      // Proses simpan data
+                          bearerToken!,
+                        );
+                        Navigator.of(context).pop();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                        // Proses simpan data
+                      }
+                    } catch (e) {
+                      print('Error: $e');
+                      SnackbarUtils.showErrorSnackbar(
+                          context, "Gagal menambahkan kegiatan");
                     }
                   },
                 ),

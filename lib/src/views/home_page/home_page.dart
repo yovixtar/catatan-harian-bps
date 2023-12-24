@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home Page'),
         automaticallyImplyLeading: false,
         actions: [
-          // Add a logout button to the AppBar
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: _handleLogout,
@@ -42,7 +41,6 @@ class _HomePageState extends State<HomePage> {
             return Text("Error: ${snapshot.error}");
           } else if (snapshot.hasData) {
             daftarKegiatan = snapshot.data;
-            // print("tes data kegiatas : ${snapshot}");
             return ListView.builder(
               itemCount: daftarKegiatan!.length,
               itemBuilder: (context, index) {
@@ -54,13 +52,6 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
-
-      // body: ListView.builder(
-      //   itemCount: kegiatanList.length,
-      //   itemBuilder: (context, index) {
-      //     return KegiatanCard(kegiatan: kegiatanList[index]);
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
