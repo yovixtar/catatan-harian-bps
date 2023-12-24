@@ -27,6 +27,12 @@ class _UpdatePenggunaState extends State<UpdatePengguna> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Pengguna'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, '/admin');
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
