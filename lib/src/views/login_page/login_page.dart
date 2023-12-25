@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                     ?.copyWith(fontSize: 24),
               ),
               SizedBox(height: 20),
-              Image.asset('assets/images/logo.png', height: 100),
+              Image.asset('assets/images/MyLogo.png', height: 100),
               SizedBox(height: 30),
               _buildTextField(_nipController, 'NIP', Icons.person),
               SizedBox(height: 10),

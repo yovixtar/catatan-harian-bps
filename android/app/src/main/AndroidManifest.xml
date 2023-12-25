@@ -2,7 +2,7 @@
     package="com.bps.catatan_harian_bps">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="catatanharianbps"
+        android:label="Catatan BPS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

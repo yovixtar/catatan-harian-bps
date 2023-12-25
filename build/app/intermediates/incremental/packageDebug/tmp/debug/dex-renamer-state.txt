@@ -1,4 +1,4 @@
-#Sun Dec 24 13:38:44 WIB 2023
+#Mon Dec 25 17:28:54 WIB 2023
 base.0=C\:\\repository\\projek-flutter\\Freelance\\catatan-harian-bps\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
